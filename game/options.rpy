@@ -18,7 +18,7 @@ define config.name = _("THEYTOOKMYBODY")
 ## Determines if the title given above is shown on the main menu screen. Set
 ## this to False to hide the title.
 
-define gui.show_name = True
+define gui.show_name = False
 
 
 ## The version of the game.
@@ -30,8 +30,11 @@ define config.version = "1.0"
 ## triple-quotes, and leave a blank line between paragraphs.
 
 define gui.about = _p("""
-""")
+Game created by Michael Stroud as part of the 2019 Halloween
+Game Jam (https://itch.io/jam/crzys-halloween-game-jam).
 
+Copyright 2019 Michael Stroud
+""")
 
 ## A short name for the game used for executables and directories in the built
 ## distribution. This must be ASCII-only, and must not contain spaces, colons,
