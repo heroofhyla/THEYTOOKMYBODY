@@ -1,7 +1,16 @@
 ﻿define s = Character("...")
 define slowfade = Fade(1.0,1.0,1.0)
+define audio.cave_sounds = "music/cave-sounds.ogg"
+define audio.heartbeat = "music/heartbeat.ogg"
+define audio.squeal = "music/squeal.ogg"
+default countdown_timer = 1.0
+
+screen countdown:
+    timer countdown_timer action Jump("interrupt")
 
 label start:
+
+    play music heartbeat
 
     $ renpy.pause(1)
 
@@ -24,6 +33,8 @@ label start:
             pass
 
     $ renpy.pause(1)
+
+    queue music cave_sounds
 
     scene bg storeroom
     with dissolve
@@ -176,11 +187,23 @@ label search_city:
 
     $ renpy.pause(1)
 
+
     s "MY BODY IS NOT THERE."
 
     if not (checked_shops and checked_alley):
         jump search_city
 
+
+    $ countdown_timer = 1.0
+    show screen countdown
+
+    menu:
+        "Try an apartment building.":
+            pass
+
+label interrupt:
+    hide screen countdown
+    stop music fadeout 1
     show taker standing at center
     with moveinleft
     
@@ -189,6 +212,8 @@ label search_city:
 
     s "WHO WAS THAT?"
     s "WAS THAT {w=1.0}MY {b}BODY{/b}?"
+
+    queue music cave_sounds
 
     menu:
         "Follow the figure.":
@@ -200,4 +225,159 @@ label search_city:
     s "A LABORATORY."
     s "THE THIEF IS INSIDE."
     s "MY {b}BODY{/b} IS INSIDE."
+
+    menu:
+        "Go inside.":
+            pass
+
+    scene bg hallway
+    with slowfade
+
+    s "LONG AND WINDING CORRIDORS."
+    s "WALLS INTERRUPTED BY DOORS."
+    s "NO SIGN OF THE THIEF."
+
+    default door_tries = 0
+
+label search_hallway:
+
+    menu:
+        "Try a door at random.":
+            pass
+        "Try a door at random.":
+            pass
+        "Try a door at random.":
+            pass
+        "Try a door at random.":
+            pass
+        "Try a door at random.":
+            pass
+        "Try a door at random.":
+            pass
+    $ door_tries += 1
+    if door_tries >= 4:
+        jump found_office
+
+    $ renpy.pause(1)
+
+    "MY BODY IS NOT BEHIND THIS DOOR."
+
+    jump search_hallway
+
+label found_office:
+
+    scene bg office with slowfade
+
+    s "A MEDICAL EXAMINATION ROOM."
+    s "AN EXAM TABLE BY THE WALL."
+    s "A CABINET FULL OF BEAKERS AND VIALS."
+    s "A COUNTER COVERED WITH PAPERS."
+    s "AND COWERING IN THE CORNER ... "
+
+    stop music fadeout 1
+    $ renpy.pause(1)
+
+    show taker standing at right
+    with dissolve
+
+    $ renpy.pause(1)
+
+    s "THE THIEF."
+    s "YOU."
+    s "YOU STOLE MY BODY."
+    s "GIVE IT BACK."
+    s "GIVE IT BACK{cps=*2} GIVE IT BACK GIVE IT BACK GIVE IT BACK GIVE IT \
+    BACK GIVE IT BACK GIVE IT BACK {/cps}{cps=*4}GIVE IT BACK GIVE IT BACK \
+    GIVE IT BACK GIVE IT BACK GIVE IT BACK GIVE IT BACK GIVE IT BACK GIVE IT \
+    BACK GIVE IT BACK{/cps}{nw}"
+    
+    hide taker with moveoutleft
+
+    s "YOU WILL NOT GET AWAY."
+
+    play music cave_sounds
+
+    $ renpy.pause(1)
+
+    scene bg hallway with fade
+
+    $ renpy.pause(1)
+
+    scene bg lab with fade
+
+    $ renpy.pause(1)
+
+    scene bg streets with fade
+
+    $ renpy.pause(1)
+
+    scene bg forest with fade
+
+    $ renpy.pause(1)
+
+    scene bg storeroom with slowfade
+
+    s "THE THIEF FLED BACK TO WHERE I BEGAN."
+    s "THE THIEF GREW WEARY, BUT I DID NOT."
+    s "THE THIEF HAS A BODY, BUT I DO NOT."
+    s "THE THIEF LOCKED THE DOOR, BUT I WAS NOT STOPPED."
+
+    scene bg basement with slowfade
+
+    show taker standing
+    with dissolve
+
+    s "THE THIEF CAN BURN, BUT I CANNOT."
+
+    show bg basement_fire with dissolve
+
+    stop music fadeout 1.0
+
+    $ renpy.pause(2)
+    
+    hide taker with dissolve
+
+    s "FINALLY."
+    s "THE THIEF IS DEAD, AND I CAN LIVE AGAIN."
+    
+    window hide
+
+    $ renpy.pause(1)
+
+    play music heartbeat
+
+    scene not_my_body with slowfade
+
+    $ renpy.pause(2)
+
+    scene not_my_body_text with dissolve
+
+    $ renpy.pause()
+
+    scene where_is_my_body with slowfade
+
+    $ renpy.pause(2)
+
+    scene where_is_my_body_text with dissolve
+
+    $ renpy.pause()
+
+    scene where_is_my_body_text2 with dissolve
+
+    $ renpy.pause()
+
+    scene you_took_my_body with slowfade
+
+    $renpy.pause(2)
+
+    scene you_took_my_body_text with dissolve
+
+    $renpy.pause()
+
+    scene give_it_back
+    play music squeal noloop
+
+    $renpy.pause(2, hard=True)
+    $renpy.pause()
+
     return
